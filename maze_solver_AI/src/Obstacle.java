@@ -7,7 +7,7 @@ public class Obstacle {
     boolean[][] visitted_way;
     int paths = 0;
     int steps = 0;
-    public Random random;
+    Random random=new Random();
     public Obstacle(int size){
         this.size=size;
     }
@@ -24,7 +24,18 @@ public class Obstacle {
             array[i][0] = 1;
             array[i][size + 1] = 1;
         }
-
+        for (int i = 1; i <= size; i++) {
+            for (int j = 1; j <= size; j++) {
+                if (i % 2 == 1 && j % 2 == 1) {
+                    array[i][j] = 0;
+                    visitted[i][j] = false;
+                    paths++;
+                    visitted_way[i][j] = false;
+                } else {
+                    array[i][j] = 1;
+                }
+            }
+        }
         array[1][0] = 0;
         array[size][size + 1] = 0;  //Giriş ve çıkış kısımlarına 0 atadık.
 
@@ -34,7 +45,7 @@ public class Obstacle {
         visitted[x_current][y_current] = true;
         while (visitedCell < paths) {
             steps++;
-            Robot next = current.randomNext(current);
+            Robot next = randNext(current);
             int x_next = next.x;
             int y_next = next.y;
 

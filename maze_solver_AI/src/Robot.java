@@ -47,7 +47,7 @@ public class Robot {
         return position.y - 2 > 0;
     }
 
-    public Robot randomNext(Robot current) {
+    public Robot randNext(Robot current) {
         ArrayList<Integer> nexts = new ArrayList<Integer>();
         if (canUp(current))
             nexts.add(0);
