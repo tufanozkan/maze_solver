@@ -14,6 +14,11 @@ public class Robot {
         this.y = y;
     }
 
+    public Robot(){
+        this.x=1;
+        this.y=0;
+    }
+
     public boolean equals(Object obj) {
         Robot other = (Robot) obj;
         return x == other.x && y == other.y;
@@ -42,7 +47,7 @@ public class Robot {
         return position.y - 2 > 0;
     }
 
-    public Robot randNext(Robot current) {
+    public Robot randomNext(Robot current) {
         ArrayList<Integer> nexts = new ArrayList<Integer>();
         if (canUp(current))
             nexts.add(0);

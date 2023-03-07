@@ -1,5 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("a");
+        Obstacle obstacle=new Obstacle(11);
+        obstacle.generate();
     }
 }
