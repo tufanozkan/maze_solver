@@ -7,7 +7,7 @@ public class Obstacle {
     boolean[][] visitted_way;
     int paths = 0;
     int steps = 0;
-    Random random=new Random();
+    Random random = new Random();
     public Obstacle(int size){
         this.size=size;
     }

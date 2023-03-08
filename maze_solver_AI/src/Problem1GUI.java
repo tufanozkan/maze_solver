@@ -1,8 +1,8 @@
-import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.*;
 
-public class Problem2GUI extends JFrame {
+public class Problem1GUI extends JFrame{
 
     public JPanel contentPane;
 
@@ -10,7 +10,7 @@ public class Problem2GUI extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    Problem2GUI frame = new Problem2GUI();
+                    Problem1GUI frame = new Problem1GUI();
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -19,13 +19,13 @@ public class Problem2GUI extends JFrame {
         });
     }
 
-    public Problem2GUI() {
+    public Problem1GUI() {
         setSize(625, 675);
         setResizable(false);
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        setTitle("PROBLEM TWO");
+        setTitle("PROBLEM ONE");
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);

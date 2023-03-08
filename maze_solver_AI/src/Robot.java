@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Stack;
 
 public class Robot {
 
@@ -9,22 +10,18 @@ public class Robot {
     public int y;
     public int[][] array;
 
-    public Robot(int x, int y){
+    public Robot(int x, int y) {
         this.x = x;
         this.y = y;
     }
-
-    public Robot(){
-        this.x=1;
-        this.y=0;
+    public Robot() {
+        this.x = 1;
+        this.y = 0;
     }
 
     public boolean equals(Object obj) {
         Robot other = (Robot) obj;
         return x == other.x && y == other.y;
-    }
-    public String toString() {
-        return "Postion(" + x + ", " + y + ")";
     }
     public static void main(String[] args) {
         Robot current = new Robot(0, 1);
@@ -33,9 +30,16 @@ public class Robot {
         System.out.println(current.equals(next));
     }
 
+    public void creatPath(Robot current, Robot next) {
+        int x = (current.x + next.x) / 2;
+        int y = (current.y + next.y) / 2;
 
-    public boolean canUp(Robot robot) {
-        return robot.x - 2 > 0;
+        array[x][y] = 0;
+    }
+
+
+    public boolean canUp(Robot position) {
+        return position.x - 2 > 0;
     }
     public boolean canRight(Robot position) {
         return position.y + 2 <= size;
@@ -92,7 +96,7 @@ public class Robot {
         return position.y - 1 > 0 && array[position.x][position.y - 1] == 0;
     }
 
-    private boolean canMove(Robot current, Robot next) {
+    public boolean canMove(Robot current, Robot next) {
         ArrayList<Robot> nexts = new ArrayList<Robot>();
         if (canMoveUp(current))
             nexts.add(new Robot(current.x - 1, current.y));
