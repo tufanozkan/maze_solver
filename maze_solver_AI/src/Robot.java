@@ -23,12 +23,6 @@ public class Robot {
         Robot other = (Robot) obj;
         return x == other.x && y == other.y;
     }
-    public static void main(String[] args) {
-        Robot current = new Robot(0, 1);
-        Robot next = new Robot(0, 1);
-
-        System.out.println(current.equals(next));
-    }
 
     public void creatPath(Robot current, Robot next) {
         int x = (current.x + next.x) / 2;
