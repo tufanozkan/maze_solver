@@ -79,15 +79,6 @@ public class Problem2GUI extends JFrame {
             }
         });
 
-        JMenuItem restart = new JMenuItem(new AbstractAction("Restart Game") {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                repaint();
-            }
-        });
-
         JMenuItem algorithm = new JMenuItem(new AbstractAction("Algorithm") {
             private static final long serialVersionUID = 1L;
 
@@ -99,8 +90,6 @@ public class Problem2GUI extends JFrame {
 
 
         game.add(newGame);
-        game.add(restart);
-
         computer.add(algorithm);
 
         mazePane = new Problem2PANEL(11);

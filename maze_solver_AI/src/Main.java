@@ -1,5 +1,5 @@
 public class Main {
     public static void main(String[] args) {
-        Robot robot= new Robot(9);
+        Robot robot= new Robot(13);
     }
 }
