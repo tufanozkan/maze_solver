@@ -2,14 +2,15 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class Robot {
-    int[][] array;
-    int size=11;
     Obstacle obstacle=new Obstacle(9);
-    public Robot(int zort){
+    int[][] array= obstacle.array;
+    int size= obstacle.size;
 
-        array=obstacle.array;
-        obstacle.generate();
+    public Robot(int size)
+    {
+        size =this.size;
     }
+
     private boolean canMove(Position current, Position next) {
         ArrayList<Position> nexts = new ArrayList<Position>();
         if (canMoveUp(current))

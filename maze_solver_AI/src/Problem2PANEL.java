@@ -21,7 +21,7 @@ class Problem2PANEL extends JPanel{
     private Position end;
     private Position current;
     private int delay = 100;
-    public Robot robot;
+    private Robot robot;
 
     public Problem2PANEL(int cellsMaze) {
         refresh(cellsMaze);

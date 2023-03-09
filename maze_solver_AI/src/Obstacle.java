@@ -17,6 +17,8 @@ public class Obstacle {
         array = new int[size + 2][size + 2];
         visitted = new boolean[size + 2][size + 2];
         visitted_way = new boolean[size + 2][size + 2];
+
+        generate();
     }
 
     public void generate() {
