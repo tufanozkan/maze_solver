@@ -4,11 +4,11 @@ import java.util.Stack;
 public class Robot {
     Obstacle obstacle=new Obstacle(9);
     int[][] array= obstacle.array;
-    int size= obstacle.size;
+    int size;
 
     public Robot(int size)
     {
-        size =this.size;
+        this.size=size;
     }
 
     private boolean canMove(Position current, Position next) {
