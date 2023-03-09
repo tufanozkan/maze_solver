@@ -1,29 +1,33 @@
 import java.util.ArrayList;
 import java.util.Random;
+
 public class Obstacle {
-    int size;
-    int[][] array;
-    boolean[][] visitted;
-    boolean[][] visitted_way;
-    int paths = 0;
-    int steps = 0;
-    Random random = new Random();
-    public Obstacle(int size){
-        this.size=size;
-    }
-    public void generate(){
-        if(size%2==0)
-            size++;
+    public int size;
+    public Random random;
+    public int[][] array;
+    public boolean[][] visitted;
+    public boolean[][] visitted_way;
+    public int paths = 0;
+    public int steps = 0;
+
+    public Obstacle(int size) {
+        if (size % 2 == 0) size++;
+        this.size = size;
+        random = new Random();
         array = new int[size + 2][size + 2];
         visitted = new boolean[size + 2][size + 2];
         visitted_way = new boolean[size + 2][size + 2];
+    }
 
+    public void generate() {
+        // First settup
         for (int i = 0; i < size + 2; i++) {
             array[0][i] = 1;
             array[size + 1][i] = 1;
             array[i][0] = 1;
             array[i][size + 1] = 1;
         }
+
         for (int i = 1; i <= size; i++) {
             for (int j = 1; j <= size; j++) {
                 if (i % 2 == 1 && j % 2 == 1) {
@@ -36,50 +40,41 @@ public class Obstacle {
                 }
             }
         }
-        array[1][0] = 0;
-        array[size][size + 1] = 0;  //Giriş ve çıkış kısımlarına 0 atadık.
 
+        array[1][0] = 0;
+        array[size][size + 1] = 0;
+
+        // Draw matrix
         int x_current = 1, y_current = 1;
-        Robot current = new Robot(x_current, y_current);
+        Position current = new Position(x_current, y_current);
         int visitedCell = 1;
         visitted[x_current][y_current] = true;
         while (visitedCell < paths) {
             steps++;
-            Robot next = randNext(current);
-            int x_next = next.x;
-            int y_next = next.y;
+            Position next = randNext(current);
+            int x_next = next.getX();
+            int y_next = next.getY();
 
             if (visitted[x_next][y_next] == false) {
                 visitted[x_next][y_next] = true;
                 visitedCell++;
-                creatPath(current, next,array);
+                creatPath(current, next);
             }
 
             // Update current position
-            current.x=next.x;
-            current.y=next.y;
-        }
-
-        print(array);
-    }
-
-    public void print(int array[][]){
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array.length; j++) {
-                System.out.print(array[i][j]);
-            }
-            System.out.println();
+            current.setX(next.getX());
+            current.setY(next.getY());
         }
     }
 
-    private void creatPath(Robot current, Robot next,int array[][]) {
-        int x = (current.x + next.x) / 2;
-        int y = (current.y + next.y) / 2;
+    public void creatPath(Position current, Position next) {
+        int x = (current.getX() + next.getX()) / 2;
+        int y = (current.getY() + next.getY()) / 2;
 
         array[x][y] = 0;
-    }
 
-    private Robot randNext(Robot current) {
+    }
+    public Position randNext(Position current) {
         ArrayList<Integer> nexts = new ArrayList<Integer>();
         if (canUp(current))
             nexts.add(0);
@@ -94,33 +89,43 @@ public class Obstacle {
         switch (value) {
             case 0: {
 
-                return new Robot(current.x - 2, current.y);
+                return new Position(current.getX() - 2, current.getY());
             }
             case 1: {
-                return new Robot(current.x, current.y + 2);
+                return new Position(current.getX(), current.getY() + 2);
             }
             case 2: {
 
-                return new Robot(current.x + 2, current.y);
+                return new Position(current.getX() + 2, current.getY());
             }
             case 3: {
-                return new Robot(current.x, current.y - 2);
+                return new Position(current.getX(), current.getY() - 2);
             }
             default:
                 throw new IllegalArgumentException("Unexpected value: " + value);
         }
     }
+    private boolean canUp(Position position) {
+        return position.getX() - 2 > 0;
+    }
+    private boolean canRight(Position position) {
+        return position.getY() + 2 <= size;
+    }
 
-    public boolean canUp(Robot robot) {
-        return robot.x - 2 > 0;
+    private boolean canDown(Position position) {
+        return position.getX() + 2 <= size;
     }
-    public boolean canRight(Robot position) {
-        return position.y + 2 <= size;
+
+    private boolean canLeft(Position position) {
+        return position.getY() - 2 > 0;
     }
-    public boolean canDown(Robot position) {
-        return position.x + 2 <= size;
-    }
-    public boolean canLeft(Robot position) {
-        return position.y - 2 > 0;
+
+    public void print(int[][] array){
+        for (int i = 0; i <array.length ; i++) {
+            for (int j = 0; j < array.length; j++) {
+                System.out.print(array[i][j]);
+            }
+            System.out.println();
+        }
     }
 }

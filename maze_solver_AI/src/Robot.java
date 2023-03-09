@@ -1,105 +1,82 @@
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Stack;
 
 public class Robot {
+    int[][] array;
+    int size=11;
+    Obstacle obstacle=new Obstacle(9);
+    public Robot(int zort){
 
-    public int size;
-    public Random random;
-    public int x;
-    public int y;
-    public int[][] array;
-
-    public Robot(int x, int y) {
-        this.x = x;
-        this.y = y;
+        array=obstacle.array;
+        obstacle.generate();
     }
-    public Robot() {
-        this.x = 1;
-        this.y = 0;
-    }
-
-    public boolean equals(Object obj) {
-        Robot other = (Robot) obj;
-        return x == other.x && y == other.y;
-    }
-
-    public void creatPath(Robot current, Robot next) {
-        int x = (current.x + next.x) / 2;
-        int y = (current.y + next.y) / 2;
-
-        array[x][y] = 0;
-    }
-
-
-    public boolean canUp(Robot position) {
-        return position.x - 2 > 0;
-    }
-    public boolean canRight(Robot position) {
-        return position.y + 2 <= size;
-    }
-    public boolean canDown(Robot position) {
-        return position.x + 2 <= size;
-    }
-    public boolean canLeft(Robot position) {
-        return position.y - 2 > 0;
-    }
-
-    public Robot randNext(Robot current) {
-        ArrayList<Integer> nexts = new ArrayList<Integer>();
-        if (canUp(current))
-            nexts.add(0);
-        if (canRight(current))
-            nexts.add(1);
-        if (canDown(current))
-            nexts.add(2);
-        if (canLeft(current))
-            nexts.add(3);
-
-        int value = nexts.get(random.nextInt(nexts.size()));
-        switch (value) {
-            case 0: {
-
-                return new Robot(current.x - 2, current.y);
-            }
-            case 1: {
-                return new Robot(current.x, current.y + 2);
-            }
-            case 2: {
-
-                return new Robot(current.x + 2, current.y);
-            }
-            case 3: {
-                return new Robot(current.x, current.y - 2);
-            }
-            default:
-                throw new IllegalArgumentException("Unexpected value: " + value);
-        }
-    }
-
-    public boolean canMoveUp(Robot position) {
-        return position.x - 1 > 0 && array[position.x - 1][position.y] == 0;
-    }
-    public boolean canMoveRight(Robot position) {
-        return position.y + 1 <= size + 1 && array[position.x][position.y + 1] == 0;
-    }
-    public boolean canMoveDown(Robot position) {
-        return position.x + 1 <= size && array[position.x + 1][position.y] == 0;
-    }
-    public boolean canMoveLeft(Robot position) {
-        return position.y - 1 > 0 && array[position.x][position.y - 1] == 0;
-    }
-
-    public boolean canMove(Robot current, Robot next) {
-        ArrayList<Robot> nexts = new ArrayList<Robot>();
+    private boolean canMove(Position current, Position next) {
+        ArrayList<Position> nexts = new ArrayList<Position>();
         if (canMoveUp(current))
-            nexts.add(new Robot(current.x - 1, current.y));
+            nexts.add(new Position(current.getX() - 1, current.getY()));
         if (canMoveRight(current))
-            nexts.add(new Robot(current.x, current.y + 1));
+            nexts.add(new Position(current.getX(), current.getY() + 1));
         if (canMoveDown(current))
-            nexts.add(new Robot(current.x + 1, current.y));
+            nexts.add(new Position(current.getX() + 1, current.getY()));
         if (canMoveLeft(current))
-            nexts.add(new Robot(current.x, current.y - 1));
+            nexts.add(new Position(current.getX(), current.getY() - 1));
         return nexts.contains(next);
+    }
+    public boolean canMoveUp(Position position) {
+        return position.getX() - 1 > 0 && array[position.getX() - 1][position.getY()] == 0;
+    }
+
+    public boolean canMoveRight(Position position) {
+        return position.getY() + 1 <= size + 1 && array[position.getX()][position.getY() + 1] == 0;
+    }
+
+    public boolean canMoveDown(Position position) {
+        return position.getX() + 1 <= size && array[position.getX() + 1][position.getY()] == 0;
+    }
+
+    public boolean canMoveLeft(Position position) {
+        return position.getY() - 1 > 0 && array[position.getX()][position.getY() - 1] == 0;
+    }
+
+    public Stack<Position> getWay(Position start, Position end) {
+        Stack<Position> visitted_pos = new Stack<Position>();
+        Stack<Position> valid_pos = new Stack<Position>();
+
+        Position current = start;
+        obstacle.visitted_way[1][0] = true;
+        visitted_pos.push(new Position(start.getX(), start.getY()));
+        while (!current.equals(end)) {
+            int x = current.getX();
+            int y = current.getY();
+            if (canMoveUp(current) && obstacle.visitted_way[x - 1][y] == false)
+                valid_pos.push(new Position(x - 1, y));
+            if (canMoveLeft(current) && obstacle.visitted_way[x][y - 1] == false)
+                valid_pos.push(new Position(x, y - 1));
+            if (canMoveRight(current) && obstacle.visitted_way[x][y + 1] == false)
+                valid_pos.push(new Position(x, y + 1));
+            if (canMoveDown(current) && obstacle.visitted_way[x + 1][y] == false)
+                valid_pos.push(new Position(x + 1, y));
+
+            current = valid_pos.pop();
+            visitted_pos.push(new Position(current.getX(), current.getY()));
+            x = current.getX();
+            y = current.getY();
+
+            obstacle.visitted_way[x][y] = true;
+        }
+        Stack<Position> way = new Stack<Position>();
+        while (!visitted_pos.empty()) {
+            way.push(visitted_pos.pop());
+        }
+        resetVisittedWay();
+        return way;
+
+    }
+    private void resetVisittedWay() {
+        for (int i = 0; i < size + 2; i++) {
+            for (int j = 0; j < size + 2; j++) {
+                obstacle.visitted_way[i][j] = false;
+            }
+        }
     }
 }

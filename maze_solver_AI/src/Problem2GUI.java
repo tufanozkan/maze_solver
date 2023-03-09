@@ -1,11 +1,35 @@
-import java.awt.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
+import javax.swing.AbstractAction;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 public class Problem2GUI extends JFrame {
+    private static final long serialVersionUID = 1L;
+    private JPanel contentPane;
+    private Problem2PANEL mazePane;
+    private JMenuBar menuBar;
+    private JMenu game;
+    private JMenu computer;
 
-    public JPanel contentPane;
-
+    /**
+     * Launch the application.
+     */
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -19,16 +43,67 @@ public class Problem2GUI extends JFrame {
         });
     }
 
+    /**
+     * Create the frame.
+     */
     public Problem2GUI() {
         setSize(625, 675);
         setResizable(false);
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        setTitle("PROBLEM TWO");
+        setTitle("Maze Game");
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(new BorderLayout(0, 0));
+
+        // Menu Bar
+        menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+
+        // Menu
+        game = new JMenu("Game");
+        computer = new JMenu("Computer");
+
+        menuBar.add(game);
+        menuBar.add(computer);
+
+        JMenuItem newGame = new JMenuItem(new AbstractAction("New Game") {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mazePane.refresh(mazePane.getCellsMaze());
+                repaint();
+            }
+        });
+
+        JMenuItem restart = new JMenuItem(new AbstractAction("Restart Game") {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                repaint();
+            }
+        });
+
+        JMenuItem algorithm = new JMenuItem(new AbstractAction("Algorithm") {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mazePane.algorithm((Graphics2D) mazePane.getGraphics());
+            }
+        });
+
+
+        game.add(newGame);
+        game.add(restart);
+
+        computer.add(algorithm);
+
+        mazePane = new Problem2PANEL(11);
+        contentPane.add(mazePane, BorderLayout.CENTER);
     }
 }
