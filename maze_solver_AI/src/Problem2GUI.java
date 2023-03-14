@@ -18,14 +18,18 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JOptionPane;
 
 public class Problem2GUI extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
+
     private Problem2PANEL mazePane;
     private JMenuBar menuBar;
     private JMenu game;
     private JMenu computer;
+
+    private JMenu change;
 
     /**
      * Launch the application.
@@ -65,9 +69,12 @@ public class Problem2GUI extends JFrame {
         // Menu
         game = new JMenu("Game");
         computer = new JMenu("Computer");
+        change=new JMenu("Change");
+
 
         menuBar.add(game);
         menuBar.add(computer);
+        menuBar.add(change);
 
         JMenuItem newGame = new JMenuItem(new AbstractAction("New Game") {
             private static final long serialVersionUID = 1L;
@@ -88,11 +95,21 @@ public class Problem2GUI extends JFrame {
             }
         });
 
+        JMenuItem size=new JMenuItem(new AbstractAction("Size") {
+            private static final long serialVersionUID = 1L;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String result = JOptionPane.showInputDialog(mazePane, "Enter size:");
+                int i=Integer.parseInt(result);
+                mazePane.refresh(i);
 
+            }
+        });
         game.add(newGame);
         computer.add(algorithm);
+        change.add(size);
 
-        mazePane = new Problem2PANEL(11);
+        mazePane = new Problem2PANEL(35);
         contentPane.add(mazePane, BorderLayout.CENTER);
     }
 }

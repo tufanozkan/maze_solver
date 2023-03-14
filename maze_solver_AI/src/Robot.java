@@ -2,13 +2,21 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class Robot {
-    Obstacle obstacle=new Obstacle(9);
-    int[][] array= obstacle.array;
     int size;
-
+    int[][] array;
+    boolean[][] visitted_way;
+    public Robot(){
+        this.size=21;
+        Obstacle obstacle=new Obstacle(21);
+        array= obstacle.array;
+        visitted_way= obstacle.visitted_way;;
+    }
     public Robot(int size)
     {
         this.size=size;
+        Obstacle obstacle=new Obstacle(size);
+        array=obstacle.array;
+        visitted_way= obstacle.visitted_way;
     }
 
     private boolean canMove(Position current, Position next) {
@@ -44,18 +52,18 @@ public class Robot {
         Stack<Position> valid_pos = new Stack<Position>();
 
         Position current = start;
-        obstacle.visitted_way[1][0] = true;
+        visitted_way[1][0] = true;
         visitted_pos.push(new Position(start.getX(), start.getY()));
         while (!current.equals(end)) {
             int x = current.getX();
             int y = current.getY();
-            if (canMoveUp(current) && obstacle.visitted_way[x - 1][y] == false)
+            if (canMoveUp(current) && visitted_way[x - 1][y] == false)
                 valid_pos.push(new Position(x - 1, y));
-            if (canMoveLeft(current) && obstacle.visitted_way[x][y - 1] == false)
+            if (canMoveLeft(current) && visitted_way[x][y - 1] == false)
                 valid_pos.push(new Position(x, y - 1));
-            if (canMoveRight(current) && obstacle.visitted_way[x][y + 1] == false)
+            if (canMoveRight(current) && visitted_way[x][y + 1] == false)
                 valid_pos.push(new Position(x, y + 1));
-            if (canMoveDown(current) && obstacle.visitted_way[x + 1][y] == false)
+            if (canMoveDown(current) && visitted_way[x + 1][y] == false)
                 valid_pos.push(new Position(x + 1, y));
 
             current = valid_pos.pop();
@@ -63,7 +71,7 @@ public class Robot {
             x = current.getX();
             y = current.getY();
 
-            obstacle.visitted_way[x][y] = true;
+            visitted_way[x][y] = true;
         }
         Stack<Position> way = new Stack<Position>();
         while (!visitted_pos.empty()) {
@@ -76,7 +84,7 @@ public class Robot {
     private void resetVisittedWay() {
         for (int i = 0; i < size + 2; i++) {
             for (int j = 0; j < size + 2; j++) {
-                obstacle.visitted_way[i][j] = false;
+                visitted_way[i][j] = false;
             }
         }
     }
