@@ -92,27 +92,6 @@ class Problem2PANEL extends JPanel{
         }
     }
 
-    private boolean passed() {
-        return current.equals(end);
-    }
-
-    private void move(Graphics2D g2d, Position current) {
-        int x = current.getX();
-        int y = current.getY();
-
-        update((Graphics2D) this.getGraphics());
-
-        g2d.setColor(Color.GREEN);
-        g2d.fill(cells[x][y]);
-
-        // Check win
-        if(passed()) {
-            JOptionPane.showMessageDialog(getParent(), "You win", "Congratulation", JOptionPane.PLAIN_MESSAGE);
-            refresh(this.cellsMaze);
-            repaint();
-        }
-    }
-
     @Override
     protected void paintComponent(Graphics g) {
         drawMaze((Graphics2D) g);

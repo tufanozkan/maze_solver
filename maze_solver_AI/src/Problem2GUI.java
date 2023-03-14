@@ -102,14 +102,17 @@ public class Problem2GUI extends JFrame {
                 String result = JOptionPane.showInputDialog(mazePane, "Enter size:");
                 int i=Integer.parseInt(result);
                 mazePane.refresh(i);
-
+                mazePane.refresh(mazePane.getCellsMaze());
+                repaint();
             }
+
         });
+
         game.add(newGame);
         computer.add(algorithm);
         change.add(size);
 
-        mazePane = new Problem2PANEL(35);
+        mazePane = new Problem2PANEL(23);
         contentPane.add(mazePane, BorderLayout.CENTER);
     }
 }
