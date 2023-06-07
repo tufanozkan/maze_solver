@@ -2,12 +2,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
-import java.text.DecimalFormat;
 import java.util.Stack;
 
 import javax.swing.JPanel;
 
-class Problem2PANEL extends JPanel{
+class mazePanel extends JPanel{
     private static final long serialVersionUID = 1L;
     private Rectangle2D[][] cells;
     private static final int dimension = 600;
@@ -23,7 +22,7 @@ class Problem2PANEL extends JPanel{
     String rslt;
 
 
-    public Problem2PANEL(int cellsMaze) {
+    public mazePanel(int cellsMaze) {
         refresh(cellsMaze);
     }
 
@@ -73,6 +72,28 @@ class Problem2PANEL extends JPanel{
 
         g2d.setColor(Color.GREEN);
         g2d.fill(cells[x][y]);
+    }
+
+    public void autoMove(Graphics2D g2d) {
+
+        app.starttime=System.nanoTime();
+
+        Stack<Position> way = robot.getDirectWay(start, end);
+        g2d.setColor(Color.GREEN);
+        while (!way.empty()) {
+            Position next = way.pop();
+            int x = next.getX();
+            int y = next.getY();
+            g2d.fill(cells[x][y]);
+            app.count2++;
+            try {
+                Thread.sleep(delay);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        app.endtime=System.nanoTime();
+        app.result=app.endtime-app.starttime;
     }
 
     public void algorithm(Graphics2D g2d) {

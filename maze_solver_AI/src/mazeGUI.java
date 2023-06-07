@@ -13,10 +13,10 @@ import javax.swing.JOptionPane;
 
 import static java.awt.BorderLayout.CENTER;
 
-public class Problem2GUI extends JFrame {
+public class mazeGUI extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
-    private Problem2PANEL mazePane;
+    private mazePanel mazePane;
     private JMenuBar menuBar;
     private JMenu game;
     private JMenu computer;
@@ -29,7 +29,7 @@ public class Problem2GUI extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    Problem2GUI frame = new Problem2GUI();
+                    mazeGUI frame = new mazeGUI();
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -41,7 +41,7 @@ public class Problem2GUI extends JFrame {
     /**
      * Create the frame.
      */
-    public Problem2GUI() {
+    public mazeGUI() {
         setSize(625, 675);
         setResizable(false);
 
@@ -86,8 +86,22 @@ public class Problem2GUI extends JFrame {
                 mazePane.cevir();
                 JOptionPane.showMessageDialog(null,"Passing Time: " + mazePane.rslt + " Second");
                 JOptionPane.showMessageDialog(null,"Step Count: " + mazePane.app.count);
+                mazePane.app.count=0;
             }
 
+        });
+
+        JMenuItem autoMove = new JMenuItem(new AbstractAction("Auto Move") {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mazePane.autoMove((Graphics2D) mazePane.getGraphics());
+                mazePane.cevir();
+                JOptionPane.showMessageDialog(null,"Passing Time: " + mazePane.rslt + " Second");
+                JOptionPane.showMessageDialog(null,"Step Count: " + mazePane.app.count2);
+                mazePane.app.count2=0;
+            }
         });
 
         JMenuItem size=new JMenuItem(new AbstractAction("Size") {
@@ -104,10 +118,11 @@ public class Problem2GUI extends JFrame {
         });
 
         game.add(newGame);
+        computer.add(autoMove);
         computer.add(algorithm);
         change.add(size);
 
-        mazePane = new Problem2PANEL(23);
+        mazePane = new mazePanel(23);
         contentPane.add(mazePane, CENTER);
     }
 }

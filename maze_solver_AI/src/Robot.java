@@ -81,6 +81,27 @@ public class Robot {
         return way;
 
     }
+
+    public Stack<Position> getDirectWay(Position start, Position end) {
+        Stack<Position> visitted_pos = getWay(start, end);
+        Stack<Position> revrse_way = new Stack<Position>();
+        while (!visitted_pos.empty()) {
+            revrse_way.push(visitted_pos.pop());
+        }
+        visitted_pos.push(new Position(end.getX(), end.getY()));
+        revrse_way.pop();
+        Position current = end;
+        while (!revrse_way.empty()) {
+            current = revrse_way.pop();
+            Position next = visitted_pos.peek();
+
+            if (canMove(current, next)) {
+                visitted_pos.push(new Position(current.getX(), current.getY()));
+            }
+        }
+        return visitted_pos;
+    }
+
     private void resetVisittedWay() {
         for (int i = 0; i < size + 2; i++) {
             for (int j = 0; j < size + 2; j++) {
