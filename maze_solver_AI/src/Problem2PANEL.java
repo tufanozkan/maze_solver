@@ -1,13 +1,10 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
 import java.util.Stack;
 
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 class Problem2PANEL extends JPanel{
@@ -22,6 +19,9 @@ class Problem2PANEL extends JPanel{
     private Position current;
     private int delay = 100;
     private Robot robot;
+    App app=new App();
+    String rslt;
+
 
     public Problem2PANEL(int cellsMaze) {
         refresh(cellsMaze);
@@ -55,7 +55,6 @@ class Problem2PANEL extends JPanel{
         }
     }
 
-
     private void drawMaze(Graphics2D g2d) {
         for (int i = 0; i < cellsMaze; i++) {
             for (int j = 0; j < cellsMaze; j++) {
@@ -77,6 +76,9 @@ class Problem2PANEL extends JPanel{
     }
 
     public void algorithm(Graphics2D g2d) {
+
+        app.starttime=System.nanoTime();
+
         Stack<Position> way = robot.getWay(start, end);
         g2d.setColor(Color.GREEN);
         while (!way.empty()) {
@@ -84,12 +86,19 @@ class Problem2PANEL extends JPanel{
             int x = next.getX();
             int y = next.getY();
             g2d.fill(cells[x][y]);
+            app.count++;
             try {
                 Thread.sleep(delay);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        app.endtime=System.nanoTime();
+        app.result=app.endtime-app.starttime;
+
+    }
+    public void cevir(){
+        rslt= String.valueOf(app.result);
     }
 
     @Override
