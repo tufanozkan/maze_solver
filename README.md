@@ -1,10 +1,10 @@
-# Maze Solver AI
+# Maze Solver
 
-Welcome to the **Maze Solver AI** project! This cutting-edge application leverages advanced algorithms and Java Swing to tackle the classic problem of maze navigation. Designed with modern software engineering principles, this project showcases the power of object-oriented programming and real-time graphical interfaces to solve mazes in style.
+Welcome to the **Maze Solver ** project! This cutting-edge application leverages advanced algorithms and Java Swing to tackle the classic problem of maze navigation. Designed with modern software engineering principles, this project showcases the power of object-oriented programming and real-time graphical interfaces to solve mazes in style.
 
 ## Project Highlights
 
-In **Maze Solver AI**, we generate intricate mazes and deploy a sophisticated robot equipped with two distinct pathfinding methodologies:
+In **Maze Solver **, we generate intricate mazes and deploy a sophisticated robot equipped with two distinct pathfinding methodologies:
 
 1. **autoMove() Method**:
    - **Mechanism**: Utilizes a stack-based approach to track the robot's path through the maze. Each step is vividly visualized by coloring the path in green, creating a dynamic and engaging animation.
